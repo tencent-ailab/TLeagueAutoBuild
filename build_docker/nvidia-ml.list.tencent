@@ -1,0 +1,2 @@
+#deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /
+deb https://mirrors.tencent.com/nvidia-machine-learning/ubuntu1804/x86_64 /

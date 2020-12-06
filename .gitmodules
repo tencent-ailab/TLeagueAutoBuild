@@ -1,0 +1,12 @@
+[submodule "TLeague"]
+	path = TLeague
+	url = https://github.com/tencent-ailab/TLeague.git
+	branch = dev-open
+[submodule "Arena"]
+	path = Arena
+	url = https://github.com/tencent-ailab/Arena.git
+	branch = dev-open
+[submodule "TPolicies"]
+	path = TPolicies
+	url = https://github.com/tencent-ailab/TPolicies.git
+	branch = dev-open

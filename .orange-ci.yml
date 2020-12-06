@@ -1,0 +1,41 @@
+dev-open:
+  push:
+    - services:
+        - docker
+      network: idc
+      envFrom: https://git.code.oa.com/pythonsun/secret/blob/master/passwrd
+      stages:
+        - name: docker login for the image
+          script: docker login -u $CCR_CCS_TENCENTYUN_USR -p $CCR_CCS_TENCENTYUN_PASSWRD ccr.ccs.tencentyun.com
+
+        - name: create CUR_TIME_TAG
+          script: echo -n $(date "+%Y%m%d%H%M%S")
+          envExport:
+            info: CUR_TIME_TAG
+        - name: create DOCKER_CPU_TAG
+          script: echo -n ccr.ccs.tencentyun.com/sc2ai/tleague-vd118:${CUR_TIME_TAG}
+          envExport:
+            info: DOCKER_CPU_TAG
+        - name: create DOCKER_GPU_TAG
+          script: echo -n ccr.ccs.tencentyun.com/sc2ai/tleague-gpu-hvd-vd118:${CUR_TIME_TAG}
+          envExport:
+            info: DOCKER_GPU_TAG
+
+        - name: build the target CPU image
+          script: docker build --network=host -f build_docker/cpu_vd118/Dockerfile -t ${DOCKER_CPU_TAG} ./
+        - name: build the target GPU image
+          script: docker build --network=host -f build_docker/gpu_hvd_vd118/Dockerfile -t ${DOCKER_GPU_TAG}  ./
+
+        - name: docker push
+          script:
+            - docker push ${DOCKER_CPU_TAG}
+            - docker push ${DOCKER_GPU_TAG}
+
+        - name: make message
+          script:
+            - echo "${DOCKER_CPU_TAG}\n${DOCKER_GPU_TAG}" >> message.txt
+            - echo "Successfully built and pushed to ccr.ccs.tencentyun.com/sc2ai/ \n" >> message.txt
+        - name: send to git
+          type: git:comment
+          options:
+            fromFile: message.txt

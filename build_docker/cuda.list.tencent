@@ -1,0 +1,2 @@
+#deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /
+deb https://mirrors.tencent.com/nvidia-cuda/ubuntu1804/x86_64 /
