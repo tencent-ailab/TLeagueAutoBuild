@@ -1,0 +1,3 @@
+[global]
+trusted-host = mirrors.cloud.tencent.com
+index-url = https://mirrors.cloud.tencent.com/pypi/simple
